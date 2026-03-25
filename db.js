@@ -1,21 +1,20 @@
 const mysql = require('mysql2');
 
+// Configuración optimizada para Aiven y Render
 const conexion = mysql.createConnection({
-    // Render y otros servicios inyectan estos valores automáticamente
-    host: process.env.DB_HOST || "localhost", 
-    user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD || "",
-    database: process.env.DB_NAME || "registro_usuarios",
-    port: process.env.DB_PORT || 3306
+    uri: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
-// conectar
+// Proceso de conexión
 conexion.connect((err) => {
     if (err) {
-        console.error("Error conectando a la base de datos:", err.message);
+        console.error("Error conectando a la base de datos de Aiven:", err.message);
         return;
     }
-    console.log("Conectado exitosamente a la base de datos");
+    console.log("¡Conexión exitosa a la base de datos en la nube!");
 });
 
 module.exports = conexion;
