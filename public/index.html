@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hollow Knight: Silksong - Inicio</title>
+    <style>
+        @import url('https://fonts.googleapis.com');
+        
+        body {
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(74, 59, 13, 0.7)), 
+                url('./img/Campanilla.png'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #e0d8d0;
+            font-family: 'Cinzel', serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* --- PANTALLA DE INICIO (OVERLAY) --- */
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            cursor: pointer;
+            transition: opacity 1.5s ease;
+        }
+
+        #intro-overlay h2 {
+            color: white;
+            letter-spacing: 5px;
+            font-size: 1.8em;
+            animation: palpitar 2s infinite;
+        }
+
+        @keyframes palpitar {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* --- PANTALLA DE CARGA (MODIFICADA CON GIF) --- */
+        #loading-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: black;
+            display: none; /* Se activa con JS */
+            z-index: 4000;
+        }
+
+        /* Hornet corriendo abajo a la derecha */
+        .hornet-loader {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 150px; /* Tamaño del GIF */
+            height: auto;
+            filter: drop-shadow(0 0 10px rgba(245, 245, 245, 0.3));
+        }
+
+        .hidden {
+            opacity: 0 !important;
+            pointer-events: none;
+        }
+
+        .btn-audio {
+            position: fixed;
+            top: 20px; right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #bb1a1a;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 100;
+            transition: 0.3s;
+            font-family: 'Cinzel', serif;
+        }
+
+        .logo-hornet {
+            width: 500px;
+            filter: drop-shadow(0 0 15px #e0dedd);
+            margin-bottom: 20px;
+            animation: flotar 5s ease-in-out infinite;
+        }
+
+        @keyframes flotar {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .btn-entrar {
+            padding: 15px 40px;
+            border: 2px solid #bb1a1a;
+            background: transparent;
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            text-decoration: none;
+            transition: 0.3s;
+            letter-spacing: 3px;
+            cursor: pointer;
+        }
+
+        .btn-entrar:hover {
+            background: #d84d4d;
+            color: #000;
+            box-shadow: 0 0 30px #cc0202;
+        }
+
+        .fuego span {
+            position: absolute; bottom: -50px; background: #e7c00e;
+            box-shadow: 0 0 10px #f1e20d; border-radius: 50%;
+            animation: subir 2s infinite linear; opacity: 0;
+        }
+
+        @keyframes subir {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-110vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Pantalla inicial -->
+    <div id="intro-overlay">
+        <h2>HAZ CLICK PARA COMENZAR</h2>
+    </div>
+
+    <!-- Pantalla de carga con Hornet corriendo -->
+    <div id="loading-overlay">
+        <img src="https://media0.giphy.com/media/v1.Y2lkPTZjMDliOTUyaTJoM2hlZWlieWl6dTNzYnhnZW43ZDRtNTF4OW1hbTZ0a21kNTI3NSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/2FSgpAW0vDBcH1CCfT/giphy.gif" alt="Cargando..." class="hornet-loader">
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="./audio/Silksong.mp3" type="audio/mpeg">
+    </audio>
+
+    <audio id="clickSound">
+        <source src="./audio/Hollow Knight Menu UI SFX.mp3" type="audio/mpeg">
+    </audio>
+
+    <button class="btn-audio" id="muteBtn">🔊 Musica: ON</button>
+
+    <img src="./img/Hornet.png" alt="Hornet Silksong" class="logo-hornet">
+
+    <h1>Pre-Registrate ahora para tener todas las novedades de Hollow Knight Silksong</h1>
+    
+    <a href="javascript:void(0)" class="btn-entrar" id="btnRegistro">REGISTRARSE</a>
+
+    <div class="fuego">
+        <span style="left:10%; width:5px; height:5px; animation-delay:0s"></span>
+        <span style="left:30%; width:8px; height:8px; animation-delay:2s"></span>
+        <span style="left:50%; width:4px; height:4px; animation-delay:1s"></span>
+        <span style="left:80%; width:6px; height:6px; animation-delay:3s"></span>
+    </div>
+
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const clickSound = document.getElementById('clickSound');
+        const btnMute = document.getElementById('muteBtn');
+        const overlay = document.getElementById('intro-overlay');
+        const loadingOverlay = document.getElementById('loading-overlay');
+        const btnRegistro = document.getElementById('btnRegistro');
+
+        // Al hacer click en la pantalla negra inicial
+        overlay.addEventListener('click', () => {
+            audio.play();
+            overlay.classList.add('hidden');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 1500);
+        });
+
+        // Al hacer click en REGISTRARSE
+        btnRegistro.addEventListener('click', (e) => {
+            // Sonido de click
+            clickSound.play().catch(() => console.log("Sonido de click no encontrado"));
+
+            // Activar pantalla negra con el GIF
+            loadingOverlay.style.display = 'block';
+
+            setTimeout(() => {
+                window.location.href = "/registro";
+            }, 5000);
+        });
+
+        // Control del botón Mute
+        btnMute.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            if (audio.muted) {
+                audio.muted = false;
+                btnMute.innerText = "🔊 Musica: ON";
+            } else {
+                audio.muted = true;
+                btnMute.innerText = "🔇 Musica: OFF";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pre-Registro</title>
+</head>
+<div class="fuego">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+<body>
+    <div class="contenedor">
+        <h2>Pre-Registro: Beta Cerrada</h2>
+        <p>Regístrate para recibir novedades y acceso exclusivo.</p>
+        
+        <form action="/guardar" method="post">
+            <label for="nombre">Nombre de Jugador (Alias):</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej. ElDui" required><br><br>
+
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" placeholder="ElDui@correo.com" required><br><br>
+
+            <label for="plataforma">Plataforma Principal:</label>
+            <select id="plataforma" name="plataforma" required>
+                <option value="PC">PC</option>
+                <option value="PlayStation">PlayStation</option>
+                <option value="Xbox">Xbox</option>
+                <option value="Mobile">Mobile</option>
+            </select><br><br>
+
+            <label>
+                <input type="checkbox" name="novedades" value="1" checked> 
+                Deseo recibir noticias y actualizaciones del juego.
+            </label><br><br>
+
+            <button type="submit">Unirse a la Beta</button>
+        </form>
+
+        <a href="/listar">Ver jugadores registrados</a>
+    </div>
+</body>
+
+</html>
